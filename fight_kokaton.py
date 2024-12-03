@@ -216,9 +216,8 @@ def main():
                         pg.display.update()
                 else:
                     del beams[j]  # 要素がnoneのものを削除
-
-        for j, beam in enumerate(beams):  # beamsからbeamを参照
-            print(type(beam))
+                if check_bound(beam.rct) in False:
+                    del beams[j]
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
