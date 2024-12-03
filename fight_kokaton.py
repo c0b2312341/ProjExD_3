@@ -180,7 +180,8 @@ def main():
     score = Score()  # scoreインスタンス
     clock = pg.time.Clock()
     tmr = 0
-    while True:
+
+    while True:  # issue1: whileのあとの空行追加
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return 
