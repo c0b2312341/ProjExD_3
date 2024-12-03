@@ -181,6 +181,7 @@ def main():
     score = Score()  # scoreインスタンス
     clock = pg.time.Clock()
     tmr = 0
+    
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -206,12 +207,18 @@ def main():
         for i, bomb in enumerate(bombs):
             for j, beam in enumerate(beams):  # beamsからbeamを参照
                 if beam is not None:
+                # これ以降には元からnoneだったものはない
                     if beam.rct.colliderect(bomb.rct):  # ビームが爆弾を撃ち落としたら
                         Score.score += 1  # bombsのnoneの数を調べ加算する
                         beams[j] = None
                         bombs[i] = None
                         bird.change_img(6, screen)
                         pg.display.update()
+                else:
+                    del beams[j]  # 要素がnoneのものを削除
+
+        for j, beam in enumerate(beams):  # beamsからbeamを参照
+            print(type(beam))
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
