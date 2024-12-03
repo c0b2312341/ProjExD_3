@@ -145,9 +145,7 @@ class Score:
     """
     撃ち落としたbombの数を表示するクラス
     """
-    # 撃ち落とした数
-    score = 0
-    # print(score)
+    score = 0  # 撃ち落とした数
 
     def __init__(self):
         """
@@ -156,6 +154,7 @@ class Score:
         """
         self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
         self.img = self.fonto.render(f"{Score.score}", 0, (0, 0, 255))
+        self.rct = self.img.get_rect()
         self.x = 100
         self.y = HEIGHT - 50
     
@@ -164,14 +163,10 @@ class Score:
         取得したScore.scoreを元に文字列を作成
         screen.blitによってsurfaceを反映させる
         """
-        # print(self)
-        # pass
         self.img = self.fonto.render(f"スコア: {Score.score}", 0, (0, 0, 255))
-        self.rct = self.img.get_rect()
         self.rct.centerx = self.x
         self.rct.centery = self.y
         screen.blit(self.img, self.rct)
-        # print(Score.score)
 
 
 def main():
@@ -182,7 +177,7 @@ def main():
     bomb = Bomb((255, 0, 0), 10)
     beam = None  # beamインスタンス
     bombs = [Bomb((255, 0, 0), 10) for i in range(NUM_OF_BOMBS)]
-    score = Score()  # scoreの初期化
+    score = Score()  # scoreインスタンス
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -208,8 +203,7 @@ def main():
         for i, bomb in enumerate(bombs):
             if beam is not None:
                 if beam.rct.colliderect(bomb.rct):  # ビームが爆弾を撃ち落としたら
-                    # if bomb is None:
-                    Score.score += 1  # bombsのnoneの数を調べる
+                    Score.score += 1  # bombsのnoneの数を調べ加算する
                     beam = None
                     bombs[i] = None
                     bird.change_img(6, screen)
@@ -217,13 +211,11 @@ def main():
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
-        # beam.update(screen)   
         bombs = [bomb for bomb in bombs if bomb is not None]  # Noneのないリスト
         for bomb in bombs:
             bomb.update(screen)
         if beam is not None:
             beam.update(screen)
-        # print(Score.score)
         score.update(screen)  # scoreをupdateで描画
         pg.display.update()
         tmr += 1
